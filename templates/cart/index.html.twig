@@ -25,7 +25,7 @@
                     {{ item.product.name }}
                 </td>
                 <td>
-                    {{ item.product.price }}
+                    {{ item.product.price / 100 }} €
                 </td>
                 <td>
                     <a href="{{ path("cart_add" , {'id': item.product.id })  }}?returnToCart=true" class="btn-sm btn-primary " ><i class="fas fa-plus"></i></a>
@@ -35,7 +35,7 @@
 
                 </td>
                 <td>
-                    {{ item.total }}
+                    {{ item.total / 100}} €
                 </td>
                 <td>
                     <a href="{{ path("cart_delete" , {'id': item.product.id } ) }}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
@@ -46,12 +46,24 @@
         <tfoot>
             <tr>
                 <td colspan="3">Total :</td>
-                <td colspan="2">{{ total }}</td>
+                <td colspan="2">{{ total / 100 }} € </td>
 
             </tr>
         </tfoot>
     </table>
 
+        <hr>
+        {% if app.user %}
+        <h2>Confirmez votre commande en remplissant ce formulaire</h2>
+        {{ form_start(confirmationForm , {'action': path('purchase_confirm')}) }}
+        {{ form_widget(confirmationForm) }}
+        <button type="submit" class="btn btn-success">Je confirme ! </button>
+        {{ form_end(confirmationForm) }}
+            {% else %}
+                <h2>Vous devez être connecté pour confirmer cette commande</h2>
+                <a href="{{ path('security_login') }}" class="btn btn-success">Connexion</a>
+                ou <a href="#">créez un compte</a>
+                {% endif %}
     {% else %}
         <h2>Le panier est vide ! </h2>
     {% endif %}

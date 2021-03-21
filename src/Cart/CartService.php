@@ -19,6 +19,10 @@ class CartService
         $this->productRepository = $productRepository;
     }
 
+    public function empty(){
+        $this->saveCart([]);
+    }
+
     protected function getCart(): array {
         return $this->session->get('cart' , []);
     }
@@ -64,6 +68,9 @@ class CartService
         return $total;
     }
 
+    /**
+     * @return array<CartItem>
+     */
     public function getDetailedCardItems()
     {
 
